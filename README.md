@@ -76,7 +76,7 @@ For more details, see:
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:clap-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:clap-kotlin:0.1.0")
 }
 ```
 
