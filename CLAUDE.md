@@ -18,11 +18,15 @@ The discipline:
    know how the file ends. If the file is too long to read in one sitting, split your turn into
    "read the file" and "write the file" — never start typing on a file you've only half-read.
 
-2. **One Rust file → one Kotlin file. Always.** No splitting one `.rs` across several `.kt`. No
-   merging several `.rs` into one `.kt`. The 1:1 mapping is the contract; everything downstream
-   (ast_distance, port-lint headers, code review) assumes it. If a `.rs` is genuinely too big for
-   one Kotlin file, that's a sign you're in `mod.rs`-equivalent territory and the upstream itself
-   is a re-export — verify, don't split.
+2. **One ordinary Rust file → one Kotlin file.** No merging several ordinary `.rs` files into one
+   `.kt`, and no splitting implementation files just for convenience. `lib.rs` is the explicit
+   exception when it is a crate facade or carries several public items: port the real Kotlin items
+   into their own focused `.kt` files and keep each file's provenance tied back to `lib.rs`.
+   Never create a catch-all `Lib.kt` just to mirror the crate root.
+
+   `mod.rs` has its own rule: pure module wiring or re-export glue is a tracking ledger, not a
+   Kotlin alias API. Do not preserve upstream `pub use` re-exports as central Kotlin typealiases;
+   migrate callers to the defining symbol instead.
 
 3. **Translate top to bottom in upstream order.** Preserve the declaration order. Don't reorder
    for "logical flow" — the upstream's order *is* the logical flow.
