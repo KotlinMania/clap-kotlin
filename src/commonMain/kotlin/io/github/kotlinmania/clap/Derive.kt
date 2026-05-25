@@ -1,11 +1,15 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap
 
 import io.github.kotlinmania.clap.builder.PossibleValue
+import kotlin.native.HiddenFromObjC
 
 /**
  * Parses command-line arguments into a user-defined value.
  */
+@HiddenFromObjC
 interface Parser<T> : FromArgMatches<T>, CommandFactory<T> {
     fun parseFrom(arguments: Iterable<String>): T {
         val matches = command().getMatchesFrom(arguments)
@@ -27,6 +31,7 @@ interface Parser<T> : FromArgMatches<T>, CommandFactory<T> {
 /**
  * Creates a command definition for a user-defined value.
  */
+@HiddenFromObjC
 interface CommandFactory<T> {
     fun command(): Command
 
@@ -36,6 +41,7 @@ interface CommandFactory<T> {
 /**
  * Converts parsed matches into a user-defined value.
  */
+@HiddenFromObjC
 interface FromArgMatches<T> {
     fun fromArgMatches(matches: ArgMatches): T
 
@@ -48,6 +54,7 @@ interface FromArgMatches<T> {
 /**
  * Appends reusable arguments to a command.
  */
+@HiddenFromObjC
 interface Args<T> : FromArgMatches<T> {
     fun groupId(): String? = null
 
@@ -59,6 +66,7 @@ interface Args<T> : FromArgMatches<T> {
 /**
  * Appends and parses subcommands for a user-defined value.
  */
+@HiddenFromObjC
 interface Subcommand<T> : FromArgMatches<T> {
     fun augmentSubcommands(command: Command): Command
 
@@ -70,6 +78,7 @@ interface Subcommand<T> : FromArgMatches<T> {
 /**
  * Parses an enum-like Kotlin value from one of its command-line spellings.
  */
+@HiddenFromObjC
 interface ValueEnum<T> {
     fun valueVariants(): List<T>
 

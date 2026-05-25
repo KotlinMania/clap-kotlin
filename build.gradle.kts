@@ -5,6 +5,7 @@ import java.nio.file.StandardCopyOption
 import java.util.zip.ZipInputStream
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.ClasspathNormalizer
+import org.gradle.api.tasks.Exec
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
@@ -28,7 +29,7 @@ plugins {
 }
 
 group = "io.github.kotlinmania"
-version = "0.1.0"
+version = "0.1.1"
 
 val androidCommandLineToolsRevision = "14742923"
 val projectCompileSdk = "34"
@@ -364,8 +365,8 @@ rootProject.extensions.configure<YarnRootExtension>("kotlinYarn") {
     resolution("**/minimatch", "10.2.5")
     resolution("picomatch", "4.0.4")
     resolution("**/picomatch", "4.0.4")
-    resolution("qs", "6.15.1")
-    resolution("**/qs", "6.15.1")
+    resolution("qs", "6.15.2")
+    resolution("**/qs", "6.15.2")
     resolution("socket.io-parser", "4.2.6")
     resolution("**/socket.io-parser", "4.2.6")
     resolution("ws", "8.20.1")
@@ -429,22 +430,63 @@ tasks.register("setupAndroidSdk") {
     }
 }
 
+val swiftExportEnvironment = mapOf(
+    "BUILT_PRODUCTS_DIR" to layout.buildDirectory.dir("swift-test").get().asFile.absolutePath,
+    "TARGET_BUILD_DIR" to layout.buildDirectory.dir("swift-test").get().asFile.absolutePath,
+    "SDK_NAME" to "macosx",
+    "CONFIGURATION" to "Debug",
+    "ARCHS" to "arm64",
+    "FRAMEWORKS_FOLDER_PATH" to "Frameworks",
+    "MACOSX_DEPLOYMENT_TARGET" to "14.0",
+    "DEPLOYMENT_TARGET_SETTING_NAME" to "MACOSX_DEPLOYMENT_TARGET",
+)
+
+val buildSwiftExportForSwiftTest = tasks.register<Exec>("buildSwiftExportForSwiftTest") {
+    group = "verification"
+    description = "Builds the Kotlin Swift Export SPM package for the local swift test harness."
+    commandLine(
+        "./gradlew",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "embedSwiftExportForXcode",
+    )
+    environment(swiftExportEnvironment)
+    outputs.dir(layout.buildDirectory.dir("swift-test"))
+    outputs.dir(layout.buildDirectory.dir("SPMPackage/macosArm64/Debug"))
+    outputs.upToDateWhen { false }
+}
+
+val swiftExportTest = tasks.register<Exec>("swiftExportTest") {
+    group = "verification"
+    description = "Runs swift test against the Kotlin Swift Export package."
+    dependsOn(buildSwiftExportForSwiftTest)
+    workingDir(layout.projectDirectory.dir("swift-test-harness"))
+    commandLine("swift", "test")
+    outputs.upToDateWhen { false }
+}
+
+val defaultTestTasks = listOf(
+    "macosArm64Test",
+    "jvmTest",
+    "jsNodeTest",
+    "wasmJsNodeTest",
+    "compileAndroidMain",
+    "assembleUnitTest",
+)
+
+swiftExportTest.configure {
+    mustRunAfter(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+}
+
 tasks.register("test") {
     group = "verification"
     description =
-        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit). " +
+        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit + Swift Export). " +
         "Non-host native targets (mingwX64, linuxX64) only run on their own host."
 
-    val defaultTestTasks = listOf(
-        "macosArm64Test",
-        "jvmTest",
-        "jsNodeTest",
-        "wasmJsNodeTest",
-        "compileAndroidMain",
-        "assembleUnitTest",
-    )
-
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
+    dependsOn(swiftExportTest)
 }
 
 val fullTargetBuildTaskNames = setOf(

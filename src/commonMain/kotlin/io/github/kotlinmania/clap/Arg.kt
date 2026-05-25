@@ -1,8 +1,11 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap
 
 import io.github.kotlinmania.clap.builder.PossibleValue
 import io.github.kotlinmania.clap.builder.TypedValueParser
+import kotlin.native.HiddenFromObjC
 
 /**
  * Definition for one command-line argument.
@@ -61,6 +64,7 @@ class Arg private constructor(
         possibleValuesList += values.map(PossibleValue::new)
     }
 
+    @HiddenFromObjC
     fun valueParser(parser: TypedValueParser<*>): Arg = apply {
         parserValue = parser
         possibleValuesList.clear()
@@ -115,6 +119,7 @@ class Arg private constructor(
 
     fun getId(): String = idValue
 
+    @HiddenFromObjC
     fun getShort(): Char? = shortName
 
     fun getLong(): String? = longName

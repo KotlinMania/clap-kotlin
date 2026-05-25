@@ -1,5 +1,9 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap
+
+import kotlin.native.HiddenFromObjC
 
 /**
  * Values captured from a parsed command line.
@@ -14,11 +18,13 @@ class ArgMatches internal constructor(
 
     fun getOneString(id: String): String? = values[id]?.lastOrNull()
 
+    @HiddenFromObjC
     inline fun <reified T> getOne(id: String): T? =
         getOneString(id)?.let { convertValue<T>(it) }
 
     fun getManyStrings(id: String): List<String>? = values[id]
 
+    @HiddenFromObjC
     inline fun <reified T> getMany(id: String): List<T>? =
         getManyStrings(id)?.mapNotNull { convertValue<T>(it) }
 
@@ -29,6 +35,7 @@ class ArgMatches internal constructor(
     fun getCount(id: String): Int =
         values[id]?.lastOrNull()?.toIntOrNull() ?: occurrences[id] ?: 0
 
+    @HiddenFromObjC
     fun subcommand(): Pair<String, ArgMatches>? = subcommandValue
 
     companion object {
@@ -36,6 +43,7 @@ class ArgMatches internal constructor(
     }
 }
 
+@HiddenFromObjC
 inline fun <reified T> convertValue(value: String): T? = when (T::class) {
     String::class -> value as T
     Boolean::class -> value.toBooleanStrictOrNull() as? T
