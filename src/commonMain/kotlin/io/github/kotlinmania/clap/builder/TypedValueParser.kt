@@ -1,9 +1,14 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap.builder
+
+import kotlin.native.HiddenFromObjC
 
 /**
  * Parses a string argument value into a Kotlin value.
  */
+@HiddenFromObjC
 fun interface TypedValueParser<T> {
     fun parse(value: String): Result<T>
 
@@ -14,10 +19,12 @@ fun interface TypedValueParser<T> {
     }
 }
 
+@HiddenFromObjC
 class StringValueParser : TypedValueParser<String> {
     override fun parse(value: String): Result<String> = Result.success(value)
 }
 
+@HiddenFromObjC
 class PossibleValuesParser private constructor(
     private val values: List<PossibleValue>,
 ) : TypedValueParser<String> {
@@ -36,7 +43,9 @@ class PossibleValuesParser private constructor(
     }
 }
 
+@HiddenFromObjC
 fun stringValueParser(): StringValueParser = StringValueParser()
 
+@HiddenFromObjC
 fun possibleValuesParser(values: Iterable<PossibleValue>): PossibleValuesParser =
     PossibleValuesParser.new(values)

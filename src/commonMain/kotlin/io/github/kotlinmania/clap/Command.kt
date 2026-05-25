@@ -1,7 +1,10 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap
 
 import io.github.kotlinmania.clap.builder.styling.Styles
+import kotlin.native.HiddenFromObjC
 
 /**
  * A command-line parser definition.
@@ -140,6 +143,7 @@ class Command private constructor(
 
     fun isAllowExternalSubcommandsSet(): Boolean = allowExternalSubcommandsValue
 
+    @HiddenFromObjC
     fun getShortFlag(): Char? = shortFlagValue
 
     fun getLongFlag(): String? = longFlagValue
@@ -161,11 +165,13 @@ class Command private constructor(
     fun getMatchesFrom(arguments: Iterable<String>): ArgMatches =
         tryGetMatchesFrom(arguments).getOrThrow()
 
+    @HiddenFromObjC
     fun tryGetMatchesFrom(arguments: Iterable<String>): Result<ArgMatches> =
         runCatching { parse(arguments.toList()) }
 
     fun getMatches(): ArgMatches = getMatchesFrom(listOf(nameValue))
 
+    @HiddenFromObjC
     fun tryGetMatches(): Result<ArgMatches> = tryGetMatchesFrom(listOf(nameValue))
 
     private fun parse(input: List<String>): ArgMatches {

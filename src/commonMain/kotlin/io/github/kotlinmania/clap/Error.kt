@@ -1,5 +1,9 @@
 // port-lint: source lib.rs
+@file:OptIn(kotlin.experimental.ExperimentalObjCRefinement::class)
+
 package io.github.kotlinmania.clap
+
+import kotlin.native.HiddenFromObjC
 
 /**
  * Kinds of command-line parsing errors that can be reported by this port.
@@ -17,6 +21,7 @@ enum class ErrorKind {
 /**
  * A command-line parsing error.
  */
+@HiddenFromObjC
 class Error(
     val kind: ErrorKind,
     message: String,
