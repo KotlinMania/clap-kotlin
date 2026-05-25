@@ -285,6 +285,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -302,6 +304,7 @@ kotlin {
         }
 
     }
+    jvmToolchain(21)
 }
 
 tasks.withType<AbstractTestTask>().configureEach {
@@ -434,6 +437,7 @@ tasks.register("test") {
 
     val defaultTestTasks = listOf(
         "macosArm64Test",
+        "jvmTest",
         "jsNodeTest",
         "wasmJsNodeTest",
         "compileAndroidMain",
@@ -450,6 +454,8 @@ val fullTargetBuildTaskNames = setOf(
     "assembleAndroidMain",
     "assembleUnitTest",
     "assembleAndroidTest",
+    "jvmMainClasses",
+    "jvmTestClasses",
     "jsMainClasses",
     "jsTestClasses",
     "wasmJsMainClasses",
