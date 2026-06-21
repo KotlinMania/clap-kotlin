@@ -31,97 +31,118 @@ class Command private constructor(
     private var allowExternalSubcommandsValue = false
     private var stylesValue: Styles? = null
 
-    fun name(name: String): Command = apply {
-        nameValue = name
-    }
+    fun name(name: String): Command =
+        apply {
+            nameValue = name
+        }
 
-    fun version(version: String?): Command = apply {
-        versionValue = version
-    }
+    fun version(version: String?): Command =
+        apply {
+            versionValue = version
+        }
 
-    fun longVersion(version: String?): Command = apply {
-        longVersionValue = version
-    }
+    fun longVersion(version: String?): Command =
+        apply {
+            longVersionValue = version
+        }
 
-    fun about(about: String?): Command = apply {
-        aboutValue = about
-    }
+    fun about(about: String?): Command =
+        apply {
+            aboutValue = about
+        }
 
-    fun longAbout(about: String?): Command = apply {
-        longAboutValue = about
-    }
+    fun longAbout(about: String?): Command =
+        apply {
+            longAboutValue = about
+        }
 
-    fun termWidth(width: Int): Command = apply {
-        termWidthValue = width
-    }
+    fun termWidth(width: Int): Command =
+        apply {
+            termWidthValue = width
+        }
 
-    fun maxTermWidth(width: Int): Command = apply {
-        maxTermWidthValue = width
-    }
+    fun maxTermWidth(width: Int): Command =
+        apply {
+            maxTermWidthValue = width
+        }
 
-    fun argRequiredElseHelp(yes: Boolean): Command = apply {
-        argRequiredElseHelpValue = yes
-    }
+    fun argRequiredElseHelp(yes: Boolean): Command =
+        apply {
+            argRequiredElseHelpValue = yes
+        }
 
-    fun trailingVarArg(yes: Boolean): Command = apply {
-        trailingVarArgValue = yes
-    }
+    fun trailingVarArg(yes: Boolean): Command =
+        apply {
+            trailingVarArgValue = yes
+        }
 
-    fun allowExternalSubcommands(yes: Boolean): Command = apply {
-        allowExternalSubcommandsValue = yes
-    }
+    fun allowExternalSubcommands(yes: Boolean): Command =
+        apply {
+            allowExternalSubcommandsValue = yes
+        }
 
-    fun shortFlag(flag: Char): Command = apply {
-        shortFlagValue = flag
-    }
+    fun shortFlag(flag: Char): Command =
+        apply {
+            shortFlagValue = flag
+        }
 
-    fun longFlag(flag: String): Command = apply {
-        longFlagValue = flag
-    }
+    fun longFlag(flag: String): Command =
+        apply {
+            longFlagValue = flag
+        }
 
-    fun visibleAlias(alias: String): Command = apply {
-        visibleAliasesList += alias
-    }
+    fun visibleAlias(alias: String): Command =
+        apply {
+            visibleAliasesList += alias
+        }
 
-    fun visibleAliases(aliases: Iterable<String>): Command = apply {
-        visibleAliasesList += aliases
-    }
+    fun visibleAliases(aliases: Iterable<String>): Command =
+        apply {
+            visibleAliasesList += aliases
+        }
 
     fun visibleAliases(aliases: Array<String>): Command = visibleAliases(aliases.asIterable())
 
-    fun visibleLongFlagAliases(aliases: Iterable<String>): Command = apply {
-        visibleLongFlagAliasesList += aliases
-    }
+    fun visibleLongFlagAliases(aliases: Iterable<String>): Command =
+        apply {
+            visibleLongFlagAliasesList += aliases
+        }
 
     fun visibleLongFlagAliases(aliases: Array<String>): Command =
         visibleLongFlagAliases(aliases.asIterable())
 
-    fun visibleShortFlagAliases(aliases: Iterable<Char>): Command = apply {
-        visibleShortFlagAliasesList += aliases
-    }
+    fun visibleShortFlagAliases(aliases: Iterable<Char>): Command =
+        apply {
+            visibleShortFlagAliasesList += aliases
+        }
 
     fun visibleShortFlagAliases(aliases: CharArray): Command =
         visibleShortFlagAliases(aliases.asIterable())
 
-    fun styles(styles: Styles): Command = apply {
-        stylesValue = styles
-    }
+    fun styles(styles: Styles): Command =
+        apply {
+            stylesValue = styles
+        }
 
-    fun arg(arg: Arg): Command = apply {
-        args += arg
-    }
+    fun arg(arg: Arg): Command =
+        apply {
+            args += arg
+        }
 
-    fun args(args: Iterable<Arg>): Command = apply {
-        this.args += args
-    }
+    fun args(args: Iterable<Arg>): Command =
+        apply {
+            this.args += args
+        }
 
-    fun group(group: ArgGroup): Command = apply {
-        groups += group
-    }
+    fun group(group: ArgGroup): Command =
+        apply {
+            groups += group
+        }
 
-    fun subcommand(command: Command): Command = apply {
-        subcommands += command
-    }
+    fun subcommand(command: Command): Command =
+        apply {
+            subcommands += command
+        }
 
     fun getName(): String = nameValue
 
@@ -307,8 +328,9 @@ class Command private constructor(
         occurrences: MutableMap<String, Int>,
     ): Int {
         if (arg.actionValue.takesValues()) {
-            val value = explicit ?: input.getOrNull(index + 1)
-                ?: throw Error(ErrorKind.MissingValue, "missing value for `--${arg.getLong() ?: arg.getId()}`")
+            val value =
+                explicit ?: input.getOrNull(index + 1)
+                    ?: throw Error(ErrorKind.MissingValue, "missing value for `--${arg.getLong() ?: arg.getId()}`")
             pushValue(values, arg, value)
             return if (explicit == null) index + 2 else index + 1
         }
@@ -329,8 +351,9 @@ class Command private constructor(
             if (!isLast) {
                 throw Error(ErrorKind.MissingValue, "missing value for `-${arg.getShort() ?: arg.getId()}`")
             }
-            val value = input.getOrNull(index + 1)
-                ?: throw Error(ErrorKind.MissingValue, "missing value for `-${arg.getShort() ?: arg.getId()}`")
+            val value =
+                input.getOrNull(index + 1)
+                    ?: throw Error(ErrorKind.MissingValue, "missing value for `-${arg.getShort() ?: arg.getId()}`")
             pushValue(values, arg, value)
             return index + 2
         }
@@ -363,7 +386,8 @@ class Command private constructor(
         if (explicit != null) {
             return explicit
         }
-        return args.filter { it.getShort() == null && it.getLong() == null }
+        return args
+            .filter { it.getShort() == null && it.getLong() == null }
             .getOrNull(position)
     }
 

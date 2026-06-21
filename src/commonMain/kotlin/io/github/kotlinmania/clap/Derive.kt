@@ -10,7 +10,9 @@ import kotlin.native.HiddenFromObjC
  * Parses command-line arguments into a user-defined value.
  */
 @HiddenFromObjC
-interface Parser<T> : FromArgMatches<T>, CommandFactory<T> {
+interface Parser<T> :
+    FromArgMatches<T>,
+    CommandFactory<T> {
     fun parseFrom(arguments: Iterable<String>): T {
         val matches = command().getMatchesFrom(arguments)
         return fromArgMatches(matches)

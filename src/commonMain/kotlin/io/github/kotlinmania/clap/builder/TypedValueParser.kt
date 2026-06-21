@@ -14,9 +14,10 @@ fun interface TypedValueParser<T> {
 
     fun possibleValues(): List<PossibleValue> = emptyList()
 
-    fun <R> map(transform: (T) -> R): TypedValueParser<R> = TypedValueParser { value ->
-        parse(value).map(transform)
-    }
+    fun <R> map(transform: (T) -> R): TypedValueParser<R> =
+        TypedValueParser { value ->
+            parse(value).map(transform)
+        }
 }
 
 @HiddenFromObjC

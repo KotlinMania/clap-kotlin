@@ -21,21 +21,22 @@ enum class ValueHint {
     ;
 
     companion object {
-        fun fromString(value: String): ValueHint = when (value.lowercase()) {
-            "unknown" -> Unknown
-            "other" -> Other
-            "anypath" -> AnyPath
-            "filepath" -> FilePath
-            "dirpath" -> DirPath
-            "executablepath" -> ExecutablePath
-            "commandname" -> CommandName
-            "commandstring" -> CommandString
-            "commandwitharguments" -> CommandWithArguments
-            "username" -> Username
-            "hostname" -> Hostname
-            "url" -> Url
-            "emailaddress" -> EmailAddress
-            else -> throw Error(ErrorKind.InvalidValue, "unknown ValueHint: `$value`")
-        }
+        fun fromString(value: String): ValueHint =
+            when (value.lowercase()) {
+                "unknown" -> Unknown
+                "other" -> Other
+                "anypath" -> AnyPath
+                "filepath" -> FilePath
+                "dirpath" -> DirPath
+                "executablepath" -> ExecutablePath
+                "commandname" -> CommandName
+                "commandstring" -> CommandString
+                "commandwitharguments" -> CommandWithArguments
+                "username" -> Username
+                "hostname" -> Hostname
+                "url" -> Url
+                "emailaddress" -> EmailAddress
+                else -> throw Error(ErrorKind.InvalidValue, "unknown ValueHint: `$value`")
+            }
     }
 }

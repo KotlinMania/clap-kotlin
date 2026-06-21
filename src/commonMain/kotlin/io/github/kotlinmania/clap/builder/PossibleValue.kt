@@ -11,29 +11,34 @@ class PossibleValue private constructor(
     private val aliasValues = mutableListOf<String>()
     private var hidden = false
 
-    fun help(help: String?): PossibleValue = apply {
-        helpValue = help?.let(::StyledStr)
-    }
-
-    fun help(help: StyledStr?): PossibleValue = apply {
-        helpValue = help
-    }
-
-    fun hide(yes: Boolean): PossibleValue = apply {
-        hidden = yes
-    }
-
-    fun alias(name: String?): PossibleValue = apply {
-        if (name == null) {
-            aliasValues.clear()
-        } else {
-            aliasValues += name
+    fun help(help: String?): PossibleValue =
+        apply {
+            helpValue = help?.let(::StyledStr)
         }
-    }
 
-    fun aliases(names: Iterable<String>): PossibleValue = apply {
-        aliasValues += names
-    }
+    fun help(help: StyledStr?): PossibleValue =
+        apply {
+            helpValue = help
+        }
+
+    fun hide(yes: Boolean): PossibleValue =
+        apply {
+            hidden = yes
+        }
+
+    fun alias(name: String?): PossibleValue =
+        apply {
+            if (name == null) {
+                aliasValues.clear()
+            } else {
+                aliasValues += name
+            }
+        }
+
+    fun aliases(names: Iterable<String>): PossibleValue =
+        apply {
+            aliasValues += names
+        }
 
     fun getName(): String = name
 

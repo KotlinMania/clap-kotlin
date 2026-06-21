@@ -44,14 +44,15 @@ class ArgMatches internal constructor(
 }
 
 @HiddenFromObjC
-inline fun <reified T> convertValue(value: String): T? = when (T::class) {
-    String::class -> value as T
-    Boolean::class -> value.toBooleanStrictOrNull() as? T
-    Byte::class -> value.toByteOrNull() as? T
-    Short::class -> value.toShortOrNull() as? T
-    Int::class -> value.toIntOrNull() as? T
-    Long::class -> value.toLongOrNull() as? T
-    Float::class -> value.toFloatOrNull() as? T
-    Double::class -> value.toDoubleOrNull() as? T
-    else -> null
-}
+inline fun <reified T> convertValue(value: String): T? =
+    when (T::class) {
+        String::class -> value as T
+        Boolean::class -> value.toBooleanStrictOrNull() as? T
+        Byte::class -> value.toByteOrNull() as? T
+        Short::class -> value.toShortOrNull() as? T
+        Int::class -> value.toIntOrNull() as? T
+        Long::class -> value.toLongOrNull() as? T
+        Float::class -> value.toFloatOrNull() as? T
+        Double::class -> value.toDoubleOrNull() as? T
+        else -> null
+    }

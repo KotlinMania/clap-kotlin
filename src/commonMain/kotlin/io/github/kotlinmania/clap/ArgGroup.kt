@@ -11,21 +11,25 @@ class ArgGroup private constructor(
     private var requiredValue = false
     private var multipleValue = false
 
-    fun arg(id: String): ArgGroup = apply {
-        members += id
-    }
+    fun arg(id: String): ArgGroup =
+        apply {
+            members += id
+        }
 
-    fun args(ids: Iterable<String>): ArgGroup = apply {
-        members += ids
-    }
+    fun args(ids: Iterable<String>): ArgGroup =
+        apply {
+            members += ids
+        }
 
-    fun required(yes: Boolean): ArgGroup = apply {
-        requiredValue = yes
-    }
+    fun required(yes: Boolean): ArgGroup =
+        apply {
+            requiredValue = yes
+        }
 
-    fun multiple(yes: Boolean): ArgGroup = apply {
-        multipleValue = yes
-    }
+    fun multiple(yes: Boolean): ArgGroup =
+        apply {
+            multipleValue = yes
+        }
 
     fun getId(): String = idValue
 
