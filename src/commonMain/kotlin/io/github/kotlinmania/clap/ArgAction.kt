@@ -37,6 +37,6 @@ enum class ArgAction {
             Count -> ((current?.toIntOrNull() ?: 0) + 1).toString()
             Help, HelpShort, HelpLong -> throw Error(ErrorKind.DisplayHelp, "display help")
             Version -> throw Error(ErrorKind.DisplayVersion, "display version")
-            Set, Append -> current ?: ""
+            Set, Append -> current.orEmpty()
         }
 }
