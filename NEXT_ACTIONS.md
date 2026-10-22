@@ -4,14 +4,16 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 1/22 (4.5%)
-- **Function parity:** 0/1 matched (target 176) — 0.0%
-- **Class/type parity:** 1/1 matched (target 25) — 100.0%
-- **Combined symbol parity:** 1/2 matched (target 201) — 50.0%
+- **Files Present:** 0/22 (0.0%)
+- **Function parity:** 0/1 matched — 0.0%
+- **Class/type parity:** 0/0 matched — N/A
+- **Combined symbol parity:** 0/1 matched — 0.0%
 - **Average inline-code cosine:** 0.00 (function body across 0 matched files)
 - **Average documentation cosine:** 0.00 (doc text across 0 matched files)
-- **Cheat-zeroed Files:** 1
-- **Critical Issues:** 1 files with <0.60 function similarity
+- **Cheat-zeroed Files:** 0
+- **Critical Issues:** 0 files with <0.60 function similarity
+- **Needs Review:** 0 files with 0.60-0.84 function similarity
+- **Excellent:** 0 files with >=0.85 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -26,17 +28,6 @@ No missing high-value files detected.
 ## Detailed Work Items
 
 Every matched file is listed below with function and type symbol parity.
-
-### 1. lib
-
-- **Target:** `clap.Arg [STUB]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 110.0
-- **Functions:** 0/0 matched (target 176)
-- **Missing functions:** _none_
-- **Types:** 1/1 matched (target 25)
-- **Missing types:** _none_
 
 ## Success Criteria
 
@@ -60,4 +51,5 @@ do not treat them as the next implementation target by default.
 |--------|-----------------|------|-------------|---------------|
 | `_cookbook.mod` | `cookbook.Mod` | 0 | `_cookbook/mod.rs` | `cookbook/Mod.kt` |
 | `_derive.mod` | `derive.Mod` | 0 | `_derive/mod.rs` | `derive/Mod.kt` |
+| `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
 
